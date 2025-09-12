@@ -1,0 +1,126 @@
+:root {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --color-actual: #2563eb;
+  --color-prediction: #f59e0b;
+  --color-mae: #14b8a6;
+  --color-grid: #434141;
+  --color-text: #FFF;
+  --point-size: 5;
+  --chart-title-size: 30;
+  --chart-title-padding-top: 10;
+  --chart-title-padding-bottom: 30;
+  --date-size: 20
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+html,
+body {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+h1 {
+  font-size: 50;
+}
+
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+a {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  color: white; /* text color */
+  background-color: #111; /* slightly lighter than black */
+  border: 2px solid #555; /* border color */
+  border-radius: 9999px; /* pill/circle-like border */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease; /* smooth hover transition */
+  margin-left: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+a:hover {
+  background-color: #333; /* slightly lighter on hover */
+  border-color: #888; /* change border on hover */
+  color: #fff;
+  transform: scale(1.0); /* subtle grow effect */
+}
+
+button.tab {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 5px 5px 0 0;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  font-weight: normal;
+  font-size: 30;
+  transition: all 0.2s ease;
+  font-weight: bold;
+}
+
+button.tab:hover {
+  background-color: #474545; /* hover effect */
+}
+
+button.tab.active {
+  background-color: #474545; /* active tab */
+  border-bottom: 2px solid white;
+}
+
+.tickers {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  color: white; /* text color */
+  background-color: #111; /* slightly lighter than black */
+  border: 2px solid #555; /* border color */
+  border-radius: 9999px; /* pill/circle-like border */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease; /* smooth hover transition */
+}
+
+.hotTickers {
+  display: inline-block;
+  padding: 0.5rem 1.2rem;
+  color: orange; /* text color */
+  background-color: #111; /* slightly lighter than black */
+  border: 2px solid #555; /* border color */
+  border-radius: 9999px; /* pill/circle-like border */
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease; /* smooth hover transition */
+}
+
+.tickers:hover {
+  background-color: #333; /* slightly lighter on hover */
+  border-color: #888; /* change border on hover */
+  color: #fff;
+  transform: scale(1.05); /* subtle grow effect */
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
