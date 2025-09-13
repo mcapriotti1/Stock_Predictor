@@ -7,7 +7,7 @@ Demos
 How it does it:
 Gathered 5 years of historical daily opening, closing, high, low, and volume of around 400 companies.
 Used LSTM machine learning model trained from 2020-2024, tested on 2024-2025.
-Assessed accuracy based on Mean Average Error (MAE), between all the companies the average from 2024-2025 was ___.
+Assessed accuracy based on Mean Average Error (MAE), between all the companies the average from 2024-2025 was 2.76%.
 The website displays the last 30 days for a given stock and the forecast for tommorow, the past displays the last 10 days and each prediction over the last 10 days.
 
 The frontend runs in react and the backend on FastAPI.
@@ -20,12 +20,7 @@ This project has three parts:
 - **frontend/** → Web app
 - **training/** → Machine learning model training
 
-
-
-This project analyzes golf swings and classifies them as either **Pro** or **Amateur** using machine learning and pose estimation. Built as a **Flask web app** so users can upload videos and see results online. Check it out [here](https://golf-swing.onrender.com/).
-
 ---
-
 ## Demo
 <div style="text-align: center">
   <img src="static/images/golf_demo.gif" 
@@ -165,6 +160,7 @@ def train_random_forest(X, y):
 
     print(classification_report(y_test, y_pred))
     return model, y_test, y_pred
+
 
 
 
