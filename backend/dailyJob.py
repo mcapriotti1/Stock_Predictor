@@ -2,7 +2,7 @@ from yahooquery import Ticker
 from datetime import date
 from database import database
 from models import actuals, predictions, maes, days, daily_maes
-from backend.myModel import run_prediction
+from myModel import run_prediction
 import sqlite3
 import joblib
 from sqlalchemy import select, delete, asc
