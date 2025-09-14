@@ -1,169 +1,63 @@
 # Stock Predictor
 
-what it does: Predicts tomorrow's closing price for around 400 companies (and displays past prices).
+A machine learning web app that predicts tomorrow’s stock closing prices for 400+ companies using LSTM models trained on 5 years of historical data, with results displayed in an interactive React + FastAPI dashboard.
 
-Demos
+## About the Project
 
-How it does it:
-Gathered 5 years of historical daily opening, closing, high, low, and volume of around 400 companies.
-Used LSTM machine learning model trained from 2020-2024, tested on 2024-2025.
-Assessed accuracy based on Mean Average Error (MAE), between all the companies the average from 2024-2025 was 2.76%.
-The website displays the last 30 days for a given stock and the forecast for tommorow, the past displays the last 10 days and each prediction over the last 10 days.
+**Tech Used:** Python, Typescript, React, FastAPI, Sqlite3, CSS
 
-The frontend runs in react and the backend on FastAPI.
+Used Yahooquery to fetch 5 years of daily historical data on stocks. Items inclued were the opening, closing, high, low, and volume. Once the data was cleaned, a Long Short-Term Memory (LSTM) model via TensorFlow was trained on 4 years of the data, the 5th year was used for testing assessed by checking absolute error between the actual and predicted price. The LSTM model takes in the stock data from the past 30 days and returns its prediction of the closing price for the following day. Each stock has its own model which are all saved in all_models.joblib alongside the mean absolute error (MAE) for each stock from 2024-2025. The average of the MAE's from all the stocks over the testing period is 2.76%. When the backend starts, ```init_db()``` runs to initalize the sqlite3 database by inserting the past 40 days of stock history, predictions over the last 10 days, and the MAE. The function ```run_daily_job()``` gathers and inserts the current days actual prices, makes predictions for the next day, and cleans up the old date. FastAPI makes queries to the database which are sent over the frontend. The frontend displays the tickers, implements a search feature, and creates interactive graphs based on the data via chart.js.
 
-Demo Videos:
-
-
-This project has three parts:
-- **backend/** → API/server code
-- **frontend/** → Web app
-- **training/** → Machine learning model training
-
----
-## Demo
+## Front Page
 <div style="text-align: center">
-  <img src="static/images/golf_demo.gif" 
+  <img src="demoVideos\StockDemo_FrontPage.gif" 
      alt="Demo Screenshot" 
      style="display: block; margin: 0 auto;">
 </div>
 
-## Uploading Video
+## Forecast Prediction
 
 <div style="text-align: center">
-  <img src="static/images/golf_download.gif" 
+  <img src="demoVideos\StockDemo_Forecast.gif" 
      alt="Demo Screenshot" 
      style="display: block; margin: 0 auto;">
 </div>
 
-## Prediction
+## Past Prediction
 
 <div style="text-align: center">
-  <img src="static/images/golf_prediction.gif" 
+  <img src="demoVideos\StockDemo_Past.gif" 
      alt="Demo Screenshot" 
      style="display: block; margin: 0 auto;">
 </div>
 
-## Pose Extraction
+## Running Instructions
 
-- Used **MediaPipe Pose Landmarker (Heavy)** to extract landmarks.
-- Key body parts used for analysis:
-  ```python
-  KEY_BODY_PARTS = [
-  "Left Shoulder", "Right Shoulder", "Left Elbow", "Right Elbow","Left Hip", "Right Hip", "Left Index", 
-  "Right Index", "Left Foot Index", "Right Foot Index", "Nose", "Left Knee", "Right Knee" ]
-- Extracted landmark data **(x, y, z, visibility, presence)** for each of the listed body parts from **30** evenly spaced frames per video.
-
-  ```python
-  selected_indices = np.linspace(0, total_frames - 1, num=num_frames, dtype=int)
-
-- Code for getting the landmark data from a video.
-
-  ```python
-  landmarks = create_landmarks("example_video.mp4")
-
-- First we normalize x, y, z positions relative to the left hip:
-
-  ```python
-  normalized = normalize_landmarks(landmarks)
-
-- We then calculate velocities for each body part (first frame initialized to 0)
-
-  ```python
-    velocity = compute_velocity(prev_frame, frame)
-
-- Next we compute the specified joint angles.
-
-  ```python
-    joints_to_compute = [
-        ("Right Shoulder", "Right Elbow", "Right Index"), ("Left Hip", "Left Knee", "Left Foot Index"),
-        ("Right Hip", "Right Knee", "Right Foot Index"), ("Left Shoulder", "Left Hip", "Left Foot Index"),
-        ("Right Shoulder", "Right Hip", "Right Foot Index"), ("Left Elbow", "Left Shoulder", "Left Hip"),
-        ("Right Elbow", "Right Shoulder", "Right Hip") ]
-    angles = compute_joint_angles(frame)
-
-- Velocities and joint angles are calculated frame by frame, which is done automatically while flattening the array.
-
-  ```python
-  flattened = flatten_video(normalized)
-
----
-
-
-## Dataset
-   - Collected 100 golf swing videos:
-     - 50 Pro swings
-     - 50 Amateur swings
-   - Videos were labeled manually.
-## Model Training
-
-We use a **Random Forest Classifier** to classify golf swings as Pro or Amateur. The training process includes data preparation, model training, and evaluation.
-
-### 1. Feature Preparation
-Each video is converted into a flattened feature vector containing:
-- **Normalized landmark positions** (x, y, z relative to left hip)  
-- **Velocities** for each body part (frame-to-frame changes)  
-- **Joint angles** computed from key landmarks  
-
-This flattening allows the Random Forest model to process a single vector per video:
-
-   ```python
-    X_flat = np.array([flatten_video(video) for video in X])
+### 1. Clone the Repository  
+```bash
+git clone https://github.com/mcapriotti1/stock_predictor.git
+cd stock_predictor
 ```
 
-### 2. Train/Test Split
-
-Due to the small dataset, The dataset is split into 80% training and 20% testing while preserving the Pro/Amateur distribution (stratified), a fixed random seed is used to ensure reproducibility of results.:
-```python
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(
-    X_flat, y, test_size=0.2, stratify=y, random_state=seed
-)
+### 2. Backend Setup
+```bash
+cd backend
+python -m venv predictor
+source ./predictor/bin/activate
+pip install -r requirements.txt
+uvicorn main:app --reload
 ```
 
-### 3.Model Setup
-
-We train a Random Forest Classifier with 100 trees:
-
-```python
-from sklearn.ensemble import RandomForestClassifier
-
-model = RandomForestClassifier(n_estimators=100, random_state=seed)
-model.fit(X_train, y_train)
+### 3. Frontend Setup
+```bash
+cd frontend
+npm install
+npm run dev
 ```
 
-### 4. Evaluation:
-
-The model is evaluated using precision, recall, F1-score, and support:
-
-```python
-from sklearn.metrics import classification_report
-
-y_pred = model.predict(X_test)
-print(classification_report(y_test, y_pred))
-```
-
-### 5. Training Function:
-
-```python
-def train_random_forest(X, y):
-    seed = set_seeds()
-    print("\n=== Random Forest Classifier ===")
-    X_flat = np.array([flatten_video(video) for video in X])
-    X_train, X_test, y_train, y_test = train_test_split(
-        X_flat, y, test_size=0.2, stratify=y, random_state=seed
-    )
-
-    model = RandomForestClassifier(n_estimators=100, random_state=76)
-    model.fit(X_train, y_train)
-    y_pred = model.predict(X_test)
-
-    print(classification_report(y_test, y_pred))
-    return model, y_test, y_pred
-
-
-
-
-
-
+### 4. Training Setup (Optional if Retraining Model)
+```bash
+cd training
+cd train
+python LSTM.py
 
