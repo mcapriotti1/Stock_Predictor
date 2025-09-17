@@ -1,6 +1,6 @@
 # Stock Predictor
 
-A machine learning web app that predicts tomorrow’s stock closing prices for 400+ companies using LSTM models trained on 5 years of historical data, with results displayed in an interactive React + FastAPI dashboard.
+A machine learning web app that predicts tomorrow's stock closing prices for 400+ companies using LSTM models trained on 5 years of historical data, with results displayed in an interactive React + FastAPI dashboard.
 
 ---
 
@@ -64,4 +64,5 @@ npm run dev
 cd training
 cd train
 python LSTM.py
+
 
