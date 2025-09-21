@@ -1,4 +1,4 @@
-# Stock Predictor
+# Stock Forecast
 
 A machine learning web app that predicts tomorrow's stock closing prices for 400+ companies using LSTM models trained on 5 years of historical data, with results displayed in an interactive React + FastAPI dashboard.
 
@@ -39,8 +39,8 @@ Used Yahooquery to fetch 5 years of daily historical data on stocks, optimized v
 
 ### 1. Clone the Repository  
 ```bash
-git clone https://github.com/mcapriotti1/stock_predictor.git
-cd stock_predictor
+git clone https://github.com/mcapriotti1/stock_forecast.git
+cd stock_forecast
 ```
 
 ### 2. Backend Setup
@@ -64,5 +64,6 @@ npm run dev
 cd training
 cd train
 python LSTM.py
+
 
 
