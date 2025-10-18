@@ -64,6 +64,3 @@ npm run dev
 cd training
 cd train
 python LSTM.py
-
-
-
